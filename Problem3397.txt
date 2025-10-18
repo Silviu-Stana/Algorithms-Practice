@@ -1,0 +1,49 @@
+//THIS IS MY FIRST SOLUTION
+//Passes 611/630 test cases
+//unfortunately if k=50000 (number is large), the code runs too inefficiently as it tries to add 100k keys to the dictionary for each number in the array.
+
+public class Solution {
+    public int MaxDistinctElements(int[] nums, int k) {
+        Dictionary<int,int> numbersUsed = new Dictionary<int,int>();
+
+        Array.Sort(nums);
+
+        foreach(int num in nums){
+            for(int i=num-k; i<=num+k; i++){
+                if(!numbersUsed.ContainsKey(i)){
+                    numbersUsed[i]=1;
+                    break;
+                } 
+                
+            }
+        }
+
+        return numbersUsed.Count;
+    }
+}
+
+
+
+//SOLUTION 2 with the help of AI:
+public class Solution {
+    public int MaxDistinctElements(int[] nums, int k) {
+        Array.Sort(nums);
+
+        int nextAvailable = int.MinValue;
+        int count=0;  
+
+        foreach(int num in nums){
+            int start=num-k;
+            int end=num+k;
+
+            int chosen=Math.Max(start,nextAvailable); //All numbers below nextAvailable are occupied, so if the start were smaller, we could not choose it.
+            
+            if(chosen <= end){
+                count++;
+                nextAvailable = chosen+1;
+            }
+        }
+
+        return count;
+    }
+}
