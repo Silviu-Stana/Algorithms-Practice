@@ -1,0 +1,57 @@
+//MY FAILED ATTEMPT:
+public class Solution {
+    public string FindLexSmallestString(string s, int a, int b) {
+        Dictionary<string,int> nums = new Dictionary();
+        
+        string min=s;
+        
+        int i=0;
+        //Try to get the first smallest possible Digits
+        while(i<10 && (s.Contains("0") || s.Contains("2") || s.Contains("4") || s.Contains("6") || s.Contains("8"))){
+            for(int j=0; j<s.Length-1; j++){
+               if(s[j]=="0" && s[j]=="2" && s[j]=="4" && s[j]=="6" && s[j]=="8"){
+                int digit = int.Parse(s[j]);
+                digit += a;
+
+                s[j]=digit.ToString();
+               } 
+            }
+        }
+            
+        }
+            for(int j=0; j<a; j++){
+                //Move last character to the beginning of the string.
+                s = s.Substring(s.Length-1) + s.Substring(0,s.Length-1);
+
+                if(nums[]) nums.TryAdd
+            }
+        
+    }
+}
+
+
+//STUDYING SOMEONE ELSE'S SOLUTION
+public class Solution {
+    public string FindLexSmallestString(string s, int a, int b) {
+        var visited = new HashSet<string>();
+        var q = new Queue<string>();
+        q.Enqueue(s);
+        visited.Add(s);
+
+        string smallest = s;
+        while(q.Count>0){
+            string current = q.Dequeue();
+            if(string.Compare(current, smallest) < 0) smallest = current;
+
+            char[] chars = current.ToCharArray();
+            for(int i=1; i<chars.Length; i+=2) chars[i] = (char)(((chars[i]-'0'+a)%10)+'0');
+
+            string added = new string(chars);
+            if(visited.Add(added)) q.Enqueue(added);
+
+            string rotated = current.Substring(current.Length-b) + current.Substring(0,current.Length-b);
+            if (visited.Add(rotated)) q.Enqueue(rotated);
+        }
+        return smallest;
+    }
+}
